@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: knowledge_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: knowledge_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  knowledge_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: knowledge_service_api
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/knowledge_db
+      - CACHE_DIR=/cache
+      - EMBEDDING_MODEL_NAME=BAAI/bge-m3
+      - RERANKER_MODEL_NAME=BAAI/bge-reranker-base
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - D:/.cache/huggingface:/cache
+      - C:/Users/Xoaic/Documents/Obsidian/KnowledgeSample:/app/vault
+
+volumes:
+  postgres_data:

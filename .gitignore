@@ -1,0 +1,24 @@
+# Python & Virtual Environment
+_KnowledgeService/venv/
+_KnowledgeService/__pycache__/
+*.pyc
+*.log
+*.tmp
+*.onnx
+.pytest_cache/
+cache/
+scratch/
+
+# User Attachment Files (Only keep folder structure via .gitkeep)
+_Attachments/*
+!_Attachments/.gitkeep
+
+# Obsidian local workspace state
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/workspace.json.bak
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
